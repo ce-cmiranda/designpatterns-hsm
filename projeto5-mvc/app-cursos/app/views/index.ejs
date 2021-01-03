@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursos</title>
+</head>
+<body>
+    <h1>Cursos</h1>
+
+
+    <ul>
+        <% for (var i = 0; i<cursos.length; i++){%>
+            <li>
+                <%= cursos[i].nome %> - <%=cursos[i].categoria %>
+            </li>
+
+
+       <%}%>
+    </ul>
+
+
+
+    <form onsubmit="createCourse(event)">
+        <input type='text' placeholder="Nome" id="nome" autofocus/>
+        <input type='text' placeholder="Categoria" id="categoria"/>
+        <input type='submit'value='Criar'\>
+    </form>
+</body>
+<script>
+    function createCourse(event){
+        event.preventDefault();
+        var nome = document.querySelector("#nome").value,
+            categoria = document.querySelector("#categoria").value;
+
+        fetch('/', {
+            method:'post',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({nome, categoria})
+        })
+        .then(resp => resp.json())
+        .then(() => {location.reload()})
+        .catch(() => {
+            console.error('Ocorreu um erro');
+        });
+    }
+</script>
+
+
+</html>
